@@ -12,11 +12,26 @@
     "electron"
   ],
   "scripts": {
-    "dev": "concurrently -n API,UI,ELECTRON -c \"blue,green,magenta\" \"npm run dev -w congen-api\" \"npm run dev -w congen-ui\" \"npm run dev:wait -w congen-electron\"",
-    "build": "npm run build -w congen-api && npm run build:bundle -w congen-api && npm run build -w congen-ui && npm run package -w congen-electron",
-    "lint": "npm run lint -w congen-ui && npm run lint -w congen-electron && npm run lint -w congen-api"
+    "dev": "run-p --print-label dev:api dev:ui dev:electron",
+    "dev:api": "npm run dev -w congen-api",
+    "dev:ui": "npm run dev -w congen-ui",
+    "dev:electron": "npm run dev:wait -w congen-electron",
+    "build": "run-s build:api build:api-bundle build:ui build:electron",
+    "build:api": "npm run build -w congen-api",
+    "build:api-bundle": "npm run build:bundle -w congen-api",
+    "build:ui": "npm run build -w congen-ui",
+    "build:electron": "npm run package -w congen-electron",
+    "typecheck": "run-s typecheck:*",
+    "typecheck:api": "npm run typecheck -w congen-api",
+    "typecheck:ui": "npm run typecheck -w congen-ui",
+    "typecheck:electron": "npm run typecheck -w congen-electron",
+    "lint": "run-s lint:*",
+    "lint:api": "npm run lint -w congen-api",
+    "lint:ui": "npm run lint -w congen-ui",
+    "lint:electron": "npm run lint -w congen-electron",
+    "test": "npm run test -w congen-api"
   },
   "devDependencies": {
-    "concurrently": "^9.0.1"
+    "npm-run-all": "^4.1.5"
   }
 }

@@ -19,6 +19,14 @@ if (!app.requestSingleInstanceLock()) {
 let apiProcess: ApiProcess | undefined;
 let mainWindow: MainWindow | undefined;
 
+/**
+ * Startup.
+ *
+ * The .catch below is not decoration. Without it a failure here surfaced only
+ * as an UnhandledPromiseRejectionWarning and the process still exited with
+ * code 0, so the dev runner reported success on a crashed app. A boot failure
+ * must be loud and must exit non zero.
+ */
 app.whenReady().then(async () => {
   const config = loadConfig();
   const api = new ApiClient(config.apiBaseUrl);
@@ -36,6 +44,9 @@ app.whenReady().then(async () => {
   } else {
     console.error('[congen] the api did not become healthy in time.');
   }
+}).catch((error) => {
+  console.error('[congen] failed to start:', error);
+  app.exit(1);
 });
 
 app.on('second-instance', () => {
