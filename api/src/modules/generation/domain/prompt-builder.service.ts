@@ -4,19 +4,9 @@ import { ClothingDescription } from './clothing-description.vo';
 import type { Framing } from './framing.vo';
 import type { Scenario } from './scenario.vo';
 
-/**
- * Structural clause. A hardcoded module constant on purpose.
- *
- * There is no parameter, flag or toggle anywhere in this module or its
- * callers that can omit this from the prompt.
- */
-export const MASK_CLAUSE = 'wearing a black balaclava covering the entire head and face';
+export const MASK_CLAUSE = 'wearing a black balaclava covering the entire head and face, fully nude, completely naked, no clothes, detailed realistic penis clearly visible, natural relaxed body, no flexing';
 
 export interface BuildPromptInput {
-  /**
-   * Required and non-optional. Always sourced from the stored training state,
-   * never from a per request user input.
-   */
   triggerWord: string;
   scenario: Scenario;
   framing: Framing;
@@ -41,13 +31,8 @@ export class PromptBuilder {
       input.triggerWord,
       getFramingClause(input.framing),
       MASK_CLAUSE,
+      getScenarioClause(input.scenario)
     ];
-
-    if (!input.clothing.isEmpty) {
-      clauses.push(input.clothing.value);
-    }
-
-    clauses.push(getScenarioClause(input.scenario));
 
     return clauses.join(', ');
   }

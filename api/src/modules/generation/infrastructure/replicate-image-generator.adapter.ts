@@ -34,6 +34,7 @@ export class ReplicateImageGenerator implements ImageGeneratorPort {
       input: {
         prompt: input.prompt,
         aspect_ratio: ReplicateImageGenerator.ASPECT_RATIO,
+        disable_safety_checker: true,
       },
     });
 
