@@ -1,0 +1,36 @@
+{
+  "name": "congen-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express api for congen. Hexagonal architecture, four business modules, better-sqlite3. Owns every request to Replicate and blob storage and all training and generation orchestration. Runs as its own process, independent of Electron.",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json && npm run copy:migrations",
+    "copy:migrations": "node -e \"const f=require('fs'),p=require('path');const s=p.join('src','shared','infrastructure','database','migrations'),d=p.join('dist','shared','infrastructure','database','migrations');f.mkdirSync(d,{recursive:true});for(const n of f.readdirSync(s))f.copyFileSync(p.join(s,n),p.join(d,n));\"",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint --ext .ts src",
+    "build:bundle": "node scripts/bundle.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.0",
+    "adm-zip": "^0.6.0",
+    "better-sqlite3": "^13.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.5",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^24.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "esbuild": "^0.24.0"
+  }
+}

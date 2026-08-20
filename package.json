@@ -1,0 +1,22 @@
+{
+  "name": "congen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Content generation desktop app. Three independent layers: electron (window + native OS features), ui (React + Tailwind), api (Express, owns all Replicate and blob logic).",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "api",
+    "ui",
+    "electron"
+  ],
+  "scripts": {
+    "dev": "concurrently -n API,UI,ELECTRON -c \"blue,green,magenta\" \"npm run dev -w congen-api\" \"npm run dev -w congen-ui\" \"npm run dev:wait -w congen-electron\"",
+    "build": "npm run build -w congen-api && npm run build:bundle -w congen-api && npm run build -w congen-ui && npm run package -w congen-electron",
+    "lint": "npm run lint -w congen-ui && npm run lint -w congen-electron && npm run lint -w congen-api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}

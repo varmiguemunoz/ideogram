@@ -1,0 +1,38 @@
+{
+  "name": "congen-electron",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Electron shell for congen. Owns the window, the native file dialog, encrypted credential storage and the lifetime of the api process. Contains no business logic: that lives entirely in the api workspace, which the renderer calls directly.",
+  "main": ".vite/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "dev:wait": "wait-on http://localhost:5173 http://127.0.0.1:4317/api/health -t 60000 && npm run start",
+    "prepare:resources": "node scripts/prepare-resources.mjs",
+    "package": "npm run prepare:resources && electron-forge package",
+    "make": "npm run prepare:resources && electron-forge make",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint --ext .ts src"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-rpm": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron-forge/plugin-vite": "^7.11.2",
+    "@electron/fuses": "^1.8.0",
+    "@types/electron-squirrel-startup": "^1.0.2",
+    "@types/node": "^24.9.2",
+    "electron": "43.4.0",
+    "eslint": "^8.57.1",
+    "typescript": "^5.9.2",
+    "vite": "^8.2.1",
+    "wait-on": "^8.0.1"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "electron-squirrel-startup": "^1.0.1"
+  }
+}
